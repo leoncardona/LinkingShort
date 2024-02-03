@@ -1,0 +1,18 @@
+{
+  "id": "mig_cmva8o7o1qluq2h61jq0",
+  "parentID": "mig_cmva80hq94lsgv390500",
+  "checksum": "1:b9e2f6e14f90bdbeb21bd6669bb10be1bace8f6a7b6c714b04ceee58bcef2d07",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "shorten",
+          "type": "string",
+          "notNull": true,
+          "defaultValue": "rick"
+        },
+        "table": "url"
+      }
+    }
+  ]
+}

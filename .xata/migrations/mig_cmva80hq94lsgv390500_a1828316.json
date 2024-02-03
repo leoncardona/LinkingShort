@@ -1,0 +1,18 @@
+{
+  "id": "mig_cmva80hq94lsgv390500",
+  "parentID": "mig_cmva7qg3j5b7ohfkhah0",
+  "checksum": "1:a1828316330098fa6af19deca5624f6d6974ca5b724f409444b4715c1fe1a624",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "full",
+          "type": "string",
+          "notNull": true,
+          "defaultValue": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        },
+        "table": "url"
+      }
+    }
+  ]
+}

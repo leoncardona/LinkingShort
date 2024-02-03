@@ -1,0 +1,6 @@
+{
+  "databaseURL": "https://Noel-Le-n-s-workspace-s6bo6v.eu-central-1.xata.sh/db/LinkingShort",
+  "codegen": {
+    "output": "src/xata.ts"
+  }
+}
