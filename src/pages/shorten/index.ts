@@ -6,11 +6,19 @@ const client = new XataClient({ apiKey: import.meta.env.XATA_API_KEY, branch: im
 
 export const POST: APIRoute = async ({ request }) => {
     const url = await request.text();
-    const newUrl = {
-        full: url,
-        shorten: crypto.SHA256(url).toString().slice(0, 6)
-    }
+    let shorten;
+    let existingUrl;
+
+    do {
+        shorten = crypto.SHA256(url + Date.now().toString()).toString().slice(0, 6);
+        existingUrl = await client.db.url.getFirst({ filter: { shorten } });
+    } while (existingUrl);
+
     try {
+        const newUrl = {
+            full: url,
+            shorten,
+        }
         await client.db.url.create(newUrl);
         return new Response(JSON.stringify(newUrl), {
             headers: { 'content-type': 'application/json' },
