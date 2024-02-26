@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { XataClient } from "../../../xata";
+import { XataClient } from "../../xata";
 
 const client = new XataClient({ apiKey: import.meta.env.XATA_API_KEY, branch: import.meta.env.XATA_BRANCH })
 

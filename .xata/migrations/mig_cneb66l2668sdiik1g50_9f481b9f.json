@@ -1,0 +1,13 @@
+{
+  "id": "mig_cneb66l2668sdiik1g50",
+  "parentID": "mig_cneb62spcp3cqa3fhecg",
+  "checksum": "1:9f481b9fad4613a47608b53d66814d52b93232ad8991bf14ec4f9892b7459cac",
+  "operations": [
+    {
+      "renameTable": {
+        "newName": "session",
+        "oldName": "user_session"
+      }
+    }
+  ]
+}

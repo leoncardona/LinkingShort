@@ -1,0 +1,12 @@
+{
+  "id": "mig_cndso155k4jbf1hib7ng",
+  "parentID": "mig_cndsnvo58t7kj8jtko1g",
+  "checksum": "1:188d17b9364bb1a1669a075d5126a4c3f3d90ac2961b0e3a759ebf2ef0f98393",
+  "operations": [
+    {
+      "removeTable": {
+        "table": "auth_user"
+      }
+    }
+  ]
+}

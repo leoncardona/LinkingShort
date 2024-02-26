@@ -11,6 +11,10 @@ export default {
       lsblue: "#0D99FF",
       lsdarkblue: "#0462A7",
     },
+    fontFamily: {
+      sans: ["Inter", "sans-serif"],
+      jakarta: ["Plus Jakarta Sans", "sans-serif"],
+    },
     extend: {},
   },
   darkMode: "class",

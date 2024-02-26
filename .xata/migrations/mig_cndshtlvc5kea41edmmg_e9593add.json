@@ -1,0 +1,18 @@
+{
+  "id": "mig_cndshtlvc5kea41edmmg",
+  "parentID": "mig_cndshkdvc5kea41edmlg",
+  "checksum": "1:e9593adde027329643c9c2bc7db135da4f12b3c5ece145b0ffa630a1f2e862bf",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "user_id",
+          "type": "text",
+          "notNull": true,
+          "defaultValue": "0"
+        },
+        "table": "user_session"
+      }
+    }
+  ]
+}

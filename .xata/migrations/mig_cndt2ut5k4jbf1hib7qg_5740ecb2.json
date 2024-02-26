@@ -1,0 +1,18 @@
+{
+  "id": "mig_cndt2ut5k4jbf1hib7qg",
+  "parentID": "mig_cndt2mdvc5kea41edmpg",
+  "checksum": "1:5740ecb24125ff24f23452a6f2e79fbb16c2a7d07393a8ed0d6bda27ad1d0bd4",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "expires_a",
+          "type": "datetime",
+          "notNull": true,
+          "defaultValue": "2024-02-27T00:00:00.000Z"
+        },
+        "table": "user_session"
+      }
+    }
+  ]
+}

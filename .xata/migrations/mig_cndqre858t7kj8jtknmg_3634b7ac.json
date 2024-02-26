@@ -1,0 +1,18 @@
+{
+  "id": "mig_cndqre858t7kj8jtknmg",
+  "parentID": "mig_cndqqsg58t7kj8jtknjg",
+  "checksum": "1:3634b7acef17d05ebfe50bccec0b92c2992bb54e1bb4b56200507e222d1f889f",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "email",
+          "type": "text",
+          "notNull": true,
+          "defaultValue": "example@example.com"
+        },
+        "table": "user"
+      }
+    }
+  ]
+}

@@ -19,6 +19,31 @@ const tables = [
       { name: "shorten", type: "string", notNull: true, defaultValue: "rick" },
     ],
   },
+  {
+    name: "user",
+    columns: [
+      {
+        name: "email",
+        type: "text",
+        notNull: true,
+        defaultValue: "example@example.com",
+      },
+      { name: "password", type: "text" },
+      { name: "username", type: "string", notNull: true, defaultValue: "user" },
+    ],
+  },
+  {
+    name: "session",
+    columns: [
+      {
+        name: "expires_at",
+        type: "datetime",
+        notNull: true,
+        defaultValue: "2024-02-27T00:00:00.000Z",
+      },
+      { name: "user_id", type: "text", notNull: true, defaultValue: "0" },
+    ],
+  },
 ] as const;
 
 export type SchemaTables = typeof tables;
@@ -27,8 +52,16 @@ export type InferredTypes = SchemaInference<SchemaTables>;
 export type Url = InferredTypes["url"];
 export type UrlRecord = Url & XataRecord;
 
+export type User = InferredTypes["user"];
+export type UserRecord = User & XataRecord;
+
+export type Session = InferredTypes["session"];
+export type SessionRecord = Session & XataRecord;
+
 export type DatabaseSchema = {
   url: UrlRecord;
+  user: UserRecord;
+  session: SessionRecord;
 };
 
 const DatabaseClient = buildClient();
