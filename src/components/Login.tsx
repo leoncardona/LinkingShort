@@ -2,41 +2,19 @@ import { useState } from "react";
 import type { IAlertMessage } from "../interfaces/IAlertMessage";
 import AlertMessage from "./AlertMessage";
 
-const Signup = () => {
+const Login = () => {
   const [formData, setFormData] = useState({
-    username: "",
     email: "",
     password: "",
   });
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [alertMessage, setAlertMessage] = useState<IAlertMessage | null>(null);
 
-  // Submit form data to the server
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    // Check if the passwords match
-    if (formData.password !== confirmPassword) {
-      setAlertMessage({
-        title: "Passwords do not match ⚠️",
-        description: "Verify the password and try again",
-        type: "warning",
-      });
-      return;
-    }
-
-    if (formData.password.length < 6) {
-      setAlertMessage({
-        title: "Password is too short ⚠️",
-        description: "The password must be at least 6 characters long",
-        type: "warning",
-      });
-      return;
-    }
-
     try {
-      const response = await fetch("/api/signup", {
+      const response = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -45,52 +23,50 @@ const Signup = () => {
       });
 
       if (response.ok) {
-        // User created successfully
+        const data = await response.json();
+        const token = data.token;
+
+        // Almacenar el token en localStorage
+        localStorage.setItem("token", token);
+
+        // User logged in successfully
         setAlertMessage({
-          title: "User created 🎉",
-          description: "Redirecting to login page...",
+          title: "Logged in successfully 🎉",
+          description: "Redirecting...",
           type: "success",
         });
         setTimeout(() => {
-          window.location.href = "/login";
-        }, 2250);
-      } else {
-        // Error creating user
+          window.location.href = "/";
+        }, 1000);
+      } else if (response.status === 400) {
         setAlertMessage({
-          title: "The email is already in use ⚠️",
-          description: "Change the email and try again",
+          title: "Incorrect password ⚠️",
+          description: "Please try again",
+          type: "warning",
+        });
+      } else {
+        setAlertMessage({
+          title: "Email not found ⚠️",
+          description: "Please try again",
           type: "warning",
         });
       }
     } catch (error) {
-      // Catch server error
       setAlertMessage({
-        title: "An unexpected error ocurred",
+        title: "An unexpected error occurred",
         description: "Please try again later",
         type: "danger",
       });
     }
   };
 
-  // Update the form data when the user types
   const handleChange = (event: { target: { name: any; value: any } }) => {
     const { name, value } = event.target;
-    if (name === "confirmPassword") {
-      setConfirmPassword(value);
-    } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    }
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
-
-  // Disable the signup button if the form is not filled
-  const isSignupDisabled =
-    !formData.username ||
-    !formData.email ||
-    !formData.password ||
-    !confirmPassword;
 
   return (
     <section>
@@ -124,7 +100,7 @@ const Signup = () => {
                 </svg>
               </a>
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white md:text-2xl">
-                Sign up
+                Login
               </h1>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
@@ -143,19 +119,6 @@ const Signup = () => {
               </div>
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  id="username"
-                  value={formData.username}
-                  onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-lsblue focus:ring-lsblue dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                />
-              </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
@@ -167,33 +130,19 @@ const Signup = () => {
                   className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-lsblue focus:ring-lsblue dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
                 />
               </div>
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
-                  Confirm password
-                </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={handleChange}
-                  className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-gray-900 focus:border-lsblue focus:ring-lsblue dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 sm:text-sm"
-                />
-              </div>
               <button
                 type="submit"
-                disabled={isSignupDisabled}
-                className="dark:focus:ring-lsblue-800 w-full rounded-lg bg-lsblue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-lsdarkblue focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-50"
+                className="dark:focus:ring-lsblue-800 w-full rounded-lg bg-lsblue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-lsdarkblue focus:outline-none focus:ring-4"
               >
-                Sign up
+                Log in
               </button>
               <p className="text-center text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
+                Don't have an account?{" "}
                 <a
-                  href="/login"
+                  href="/signup"
                   className="dark:text-lsblue-500 font-medium text-lsblue hover:underline"
                 >
-                  Login here
+                  Sign up here
                 </a>
               </p>
             </form>
@@ -205,4 +154,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

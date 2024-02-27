@@ -32,18 +32,6 @@ const tables = [
       { name: "username", type: "string", notNull: true, defaultValue: "user" },
     ],
   },
-  {
-    name: "session",
-    columns: [
-      {
-        name: "expires_at",
-        type: "datetime",
-        notNull: true,
-        defaultValue: "2024-02-27T00:00:00.000Z",
-      },
-      { name: "user_id", type: "text", notNull: true, defaultValue: "0" },
-    ],
-  },
 ] as const;
 
 export type SchemaTables = typeof tables;
@@ -55,13 +43,9 @@ export type UrlRecord = Url & XataRecord;
 export type User = InferredTypes["user"];
 export type UserRecord = User & XataRecord;
 
-export type Session = InferredTypes["session"];
-export type SessionRecord = Session & XataRecord;
-
 export type DatabaseSchema = {
   url: UrlRecord;
   user: UserRecord;
-  session: SessionRecord;
 };
 
 const DatabaseClient = buildClient();

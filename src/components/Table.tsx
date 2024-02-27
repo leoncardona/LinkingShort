@@ -1,17 +1,17 @@
-import Skeleton from "react-loading-skeleton";
 import type { Url } from "../xata";
 import { useCookies } from "react-cookie";
 
 const baseUrl = "http://localhost:4321/";
 
 const Table = ({ data, updateData }: any) => {
-
-  const [cookies, setCookie] = useCookies(['guestLinks']);
+  const [cookies, setCookie] = useCookies(["guestLinks"]);
 
   const deleteUrl = async (id: string) => {
     const newData = data.filter((url: Url) => url.id !== id);
-    const newCookie = cookies.guestLinks.filter((cookie: string) => cookie !== id);
-    setCookie('guestLinks', newCookie, { path: '/' });
+    const newCookie = cookies.guestLinks.filter(
+      (cookie: string) => cookie !== id,
+    );
+    setCookie("guestLinks", newCookie, { path: "/" });
     updateData(newData);
 
     await fetch(`http://localhost:4321/api/urls/delete/${id}`, {
@@ -49,11 +49,9 @@ const Table = ({ data, updateData }: any) => {
                   scope="row"
                   className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
                 >
-                  <a href={baseUrl + url.shorten}>
-                    {baseUrl + url.shorten || <Skeleton />}
-                  </a>
+                  <a href={baseUrl + url.shorten}>{baseUrl + url.shorten}</a>
                 </th>
-                <td className="px-6 py-4"> {url.full || <Skeleton />} </td>
+                <td className="px-6 py-4"> {url.full} </td>
                 <td className="px-6 py-4 text-right">
                   <button
                     onClick={() => deleteUrl(url.id)}
