@@ -4,14 +4,19 @@ import { useCookies } from "react-cookie";
 const baseUrl = "http://localhost:4321/";
 
 const Table = ({ data, updateData }: any) => {
-  const [cookies, setCookie] = useCookies(["guestLinks"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["guestLinks"]);
 
   const deleteUrl = async (id: string) => {
     const newData = data.filter((url: Url) => url.id !== id);
-    const newCookie = cookies.guestLinks.filter(
+    const guestLinks = cookies.guestLinks.filter(
       (cookie: string) => cookie !== id,
     );
-    setCookie("guestLinks", newCookie, { path: "/" });
+
+    if (guestLinks.length !== 0) { // If the user has guest links
+      setCookie("guestLinks", guestLinks, { path: "/" });
+    } else {
+      removeCookie("guestLinks", { path: "/" });
+    }
     updateData(newData);
 
     await fetch(`http://localhost:4321/api/urls/delete/${id}`, {

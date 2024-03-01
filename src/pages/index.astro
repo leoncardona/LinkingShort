@@ -1,12 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Main from "../components/Main";
-
-if (!Astro.cookies.get("guestLinks")) {
-  Astro.cookies.set("guestLinks", "", { path: "/" });
-}
+import Header from "../components/Header";
 ---
 
 <Layout title="LinkingShort">
+  <Header client:load />
   <Main client:load />
 </Layout>

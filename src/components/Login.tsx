@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { IAlertMessage } from "../interfaces/IAlertMessage";
 import AlertMessage from "./AlertMessage";
+import { useCookies } from "react-cookie";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +10,7 @@ const Login = () => {
   });
 
   const [alertMessage, setAlertMessage] = useState<IAlertMessage | null>(null);
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "guestLinks"]);
 
   const handleSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -26,8 +28,11 @@ const Login = () => {
         const data = await response.json();
         const token = data.token;
 
-        // Almacenar el token en localStorage
-        localStorage.setItem("token", token);
+        // Remove guestLinks cookie
+        removeCookie("guestLinks", { path: "/" });
+
+        // Store the token in a cookie
+        setCookie("token", token);
 
         // User logged in successfully
         setAlertMessage({

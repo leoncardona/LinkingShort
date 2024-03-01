@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 const LinkInput = ({ data, updateData }: any) => {
   const [linkValue, setLinkValue] = useState<string>("");
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-  const [cookies, setCookie] = useCookies(['guestLinks']);
+  const [cookies, setCookie] = useCookies(["guestLinks"]);
 
   const urlInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,9 +20,11 @@ const LinkInput = ({ data, updateData }: any) => {
     setLinkValue("");
     updateData([...data, addedUrl]);
 
-    // Add url id to guestLinks cookie
-    const newCookie = [...cookies.guestLinks, addedUrl.id];
-    setCookie('guestLinks', newCookie, { path: '/' });
+    // Update cookie information
+    const guestLinks = cookies.guestLinks
+      ? [...cookies.guestLinks, addedUrl.id]
+      : [addedUrl.id]; // Add the new link to the cookie if the user has guest links
+    setCookie("guestLinks", guestLinks, { path: "/" });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +58,7 @@ const LinkInput = ({ data, updateData }: any) => {
         disabled={!linkValue || !isValidUrl || data.length >= 5}
         onClick={() => createLink(linkValue)}
         id="submitLinkButton"
-        className="rounded-full bg-lsdarkblue px-4 py-2 text-white hover:bg-lsblue disabled:opacity-50 disabled:cursor-not-allowed"
+        className="rounded-full bg-lsdarkblue px-4 py-2 text-white hover:bg-lsblue disabled:cursor-not-allowed disabled:opacity-50"
       >
         Shorten
       </button>

@@ -36,7 +36,7 @@ export const POST: APIRoute = async (
   }
 
   // Create a JWT token
-  const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, { expiresIn: '12h' });
+  const token = jwt.sign({ userId: user.id, username: user.username }, JWT_SECRET, { expiresIn: '12h' });
 
   // Return OK response
   return new Response(JSON.stringify({ token }), {

@@ -10,15 +10,17 @@ const Main = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("http://localhost:4321/api/urls", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cookies.guestLinks),
-      });
-      const data = await response.json();
-      setData(data);
+      if (cookies.guestLinks) { // If the user has guest links
+        const response = await fetch("http://localhost:4321/api/urls", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cookies.guestLinks),
+        });
+        const data = await response.json();
+        setData(data);
+      }
     };
 
     fetchData();
@@ -32,8 +34,8 @@ const Main = () => {
     <main
       className={
         data.length === 0
-          ? "flex min-h-screen flex-col items-center gap-12 pt-48 transition-all duration-700"
-          : "flex min-h-screen flex-col items-center gap-8 pt-32 transition-all duration-700"
+          ? "flex h-full flex-col items-center gap-12 pt-48 transition-all duration-700"
+          : "flex h-full flex-col items-center gap-8 pt-32 transition-all duration-700"
       }
     >
       <div className="flex flex-col items-center justify-center gap-8">
