@@ -1,0 +1,19 @@
+{
+  "id": "mig_cnjis0gapur28bifpi00",
+  "parentID": "mig_cnjirnl4ap0hh5rhl2d0",
+  "checksum": "1:566d39ace325b6e1e96a4db3c3a7d199f5892f34d6c8874afb86652528cba0b8",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "urls",
+          "type": "vector",
+          "vector": {
+            "dimension": 2
+          }
+        },
+        "table": "user"
+      }
+    }
+  ]
+}

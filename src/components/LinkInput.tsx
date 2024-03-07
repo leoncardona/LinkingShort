@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 const LinkInput = ({ data, updateData }: any) => {
   const [linkValue, setLinkValue] = useState<string>("");
   const [isValidUrl, setIsValidUrl] = useState<boolean>(true);
-  const [cookies, setCookie] = useCookies(["guestLinks"]);
+  const [cookies, setCookie] = useCookies(["guestLinks", "token"]);
 
   const urlInputRef = useRef<HTMLInputElement>(null);
 
@@ -20,11 +20,35 @@ const LinkInput = ({ data, updateData }: any) => {
     setLinkValue("");
     updateData([...data, addedUrl]);
 
-    // Update cookie information
-    const guestLinks = cookies.guestLinks
-      ? [...cookies.guestLinks, addedUrl.id]
-      : [addedUrl.id]; // Add the new link to the cookie if the user has guest links
-    setCookie("guestLinks", guestLinks, { path: "/" });
+    if (cookies.token) {
+      // Logged user
+      // Get user id from the token
+      const sessionResponse = await fetch("/api/session", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const sessionData = await sessionResponse.json();
+
+      // Add the new link to the user's list of links
+      await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: sessionData.userId,
+          urlId: addedUrl.id,
+        }),
+      });
+    } else {
+      // Guest user
+      console.log("QUE DISE SU POLLA LOCA");
+      const guestLinks = cookies.guestLinks
+        ? [...cookies.guestLinks, addedUrl.id]
+        : [addedUrl.id]; // Add the new link to the cookie if the user has guest links
+      setCookie("guestLinks", guestLinks, { path: "/" });
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +63,7 @@ const LinkInput = ({ data, updateData }: any) => {
   };
 
   return (
-    <div className="button flex items-center justify-between rounded-full border-4 border-[#353C4A] bg-[#181E29] p-2">
+    <div className="button flex animate-fade-in items-center justify-between rounded-full border-4 border-[#353C4A] bg-[#181E29] p-2">
       <div className="flex items-center gap-4">
         <img className="ml-4" src="link.svg" alt="link icon" />
         <input
@@ -53,9 +77,10 @@ const LinkInput = ({ data, updateData }: any) => {
           placeholder="Enter the link here"
         />
       </div>
-
       <button
-        disabled={!linkValue || !isValidUrl || data.length >= 5}
+        disabled={
+          !linkValue || !isValidUrl || (data.length === 5 && cookies.guestLinks)
+        }
         onClick={() => createLink(linkValue)}
         id="submitLinkButton"
         className="rounded-full bg-lsdarkblue px-4 py-2 text-white hover:bg-lsblue disabled:cursor-not-allowed disabled:opacity-50"

@@ -30,6 +30,7 @@ const tables = [
       },
       { name: "password", type: "text" },
       { name: "username", type: "string", notNull: true, defaultValue: "user" },
+      { name: "urls", type: "multiple" },
     ],
   },
 ] as const;

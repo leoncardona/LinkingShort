@@ -2,39 +2,40 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import type { IJWTToken } from "../interfaces/IJWTToken";
 
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState("");
-  const [loading, setLoading] = useState(true); // Estado para controlar el esqueleto
+  const [loading, setLoading] = useState(true); // State for loading skeleton
 
   useEffect(() => {
-    const token = cookies.token;
-    if (token) {
+    if (cookies.token) {
       fetch("/api/session", {
         headers: {
           "Content-Type": "application/json",
         },
       })
         .then((response) => response.json())
-        .then((data) => {
+        .then((data: IJWTToken) => {
           setIsLoggedIn(data.userId ? true : false);
           setUserName(data.username || "");
-          setLoading(false); // Cambiar el estado de carga a false una vez completada
+          setLoading(false);
         });
     } else {
       setIsLoggedIn(false);
-      setLoading(false); // También cambiar a false si no hay token
+      setLoading(false);
     }
   }, [cookies.token]);
 
   const handleLogout = () => {
     removeCookie("token", { path: "/" });
+    window.location.reload();
   };
 
   return (
-    <header className="flex items-center justify-between bg-transparent px-64 py-4 backdrop-blur-3xl">
+    <header className="flex animate-fade-in-down items-center justify-between bg-transparent px-64 py-4 backdrop-blur-3xl">
       <h1 className="font-jakarta text-2xl font-bold transition-all duration-700">
         Linking<span className="text-lsblue">Short</span>
       </h1>
@@ -49,10 +50,9 @@ const Header = () => {
         <nav className="flex items-center gap-8">
           <span className="font-semibold">{userName}</span>
           <button onClick={handleLogout}>
-            {/* Aquí va tu SVG de logout */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="color icon icon-tabler icon-tabler-logout opacity-80 hover:scale-105 hover:opacity-100 hover:stroke-red-500"
+              className="color icon icon-tabler icon-tabler-logout opacity-80 hover:scale-105 hover:stroke-red-500 hover:opacity-100"
               width="24"
               height="24"
               viewBox="0 0 24 24"

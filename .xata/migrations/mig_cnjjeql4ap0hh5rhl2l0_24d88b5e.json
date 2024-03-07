@@ -1,0 +1,13 @@
+{
+  "id": "mig_cnjjeql4ap0hh5rhl2l0",
+  "parentID": "mig_cnjjedt4ap0hh5rhl2k0",
+  "checksum": "1:24d88b5e8dca0db71a6e1d66aa81b2e5ecf189d1eef691c85e23251703a8a6c7",
+  "operations": [
+    {
+      "removeColumn": {
+        "column": "urls",
+        "table": "user"
+      }
+    }
+  ]
+}

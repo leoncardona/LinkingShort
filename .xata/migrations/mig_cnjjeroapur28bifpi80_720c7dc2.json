@@ -1,0 +1,16 @@
+{
+  "id": "mig_cnjjeroapur28bifpi80",
+  "parentID": "mig_cnjjeql4ap0hh5rhl2l0",
+  "checksum": "1:720c7dc2ee2972e91945eb5cf74478e884263ab178060dd6327382fff4aed424",
+  "operations": [
+    {
+      "addColumn": {
+        "column": {
+          "name": "urls",
+          "type": "multiple"
+        },
+        "table": "user"
+      }
+    }
+  ]
+}

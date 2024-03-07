@@ -1,24 +1,48 @@
 import type { Url } from "../xata";
 import { useCookies } from "react-cookie";
+import { useState } from "react"; // Importa el useState hook
 
 const baseUrl = "http://localhost:4321/";
 
 const Table = ({ data, updateData }: any) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["guestLinks"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "guestLinks",
+    "token",
+  ]);
 
   const deleteUrl = async (id: string) => {
-    const newData = data.filter((url: Url) => url.id !== id);
-    const guestLinks = cookies.guestLinks.filter(
-      (cookie: string) => cookie !== id,
-    );
+    // When the user is a guest
+    let guestLinks: string[] = [];
+    if (cookies.guestLinks) {
+      guestLinks = cookies.guestLinks.filter((cookie: string) => cookie !== id);
+      guestLinks.length !== 0
+        ? setCookie("guestLinks", guestLinks, { path: "/" })
+        : removeCookie("guestLinks", { path: "/" });
+    } else if (cookies.token) {
+      // When the user is logged in
+      // Get user id from the token
+      const sessionResponse = await fetch("/api/session", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const sessionData = await sessionResponse.json();
 
-    if (guestLinks.length !== 0) { // If the user has guest links
-      setCookie("guestLinks", guestLinks, { path: "/" });
-    } else {
-      removeCookie("guestLinks", { path: "/" });
+      // Remove the URL from the user's list
+      await fetch("http://localhost:4321/api/user", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: sessionData.userId, urlId: id }),
+      });
     }
+
+    // Update the data in the table
+    const newData = data.filter((url: Url) => url.id !== id);
     updateData(newData);
 
+    // Remove the URL from the database
     await fetch(`http://localhost:4321/api/urls/delete/${id}`, {
       method: "DELETE",
       headers: {
@@ -52,7 +76,7 @@ const Table = ({ data, updateData }: any) => {
               >
                 <th
                   scope="row"
-                  className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white"
+                  className="relative whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white" // added relative positioning here
                 >
                   <a href={baseUrl + url.shorten}>{baseUrl + url.shorten}</a>
                 </th>
