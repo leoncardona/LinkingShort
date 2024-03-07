@@ -9,9 +9,6 @@ const client = new XataClient({
   branch: import.meta.env.XATA_BRANCH,
 });
 
-// Secret key para firmar el token JWT
-const JWT_SECRET = import.meta.env.JWT_SECRET;
-
 // Get the token cookie, decode it and return the user data
 export const GET: APIRoute = async (
   context: APIContext,
