@@ -35,8 +35,8 @@ const Header = () => {
   };
 
   return (
-    <header className="flex animate-fade-in-down items-center justify-between bg-transparent px-64 py-4 backdrop-blur-3xl">
-      <h1 className="font-jakarta text-2xl font-bold transition-all duration-700">
+    <header className="flex animate-fade-in-down items-center justify-between bg-transparent xl:px-64 lg:px-36 md:px-24 px-4 py-4 backdrop-blur-3xl">
+      <h1 className="font-jakarta md:text-2xl text-xl font-bold transition-all duration-700">
         Linking<span className="text-lsblue">Short</span>
       </h1>
       {loading ? (
@@ -47,7 +47,7 @@ const Header = () => {
           </nav>
         </SkeletonTheme>
       ) : isLoggedIn ? (
-        <nav className="flex items-center gap-8">
+        <nav className="flex items-center md:gap-4 gap-2">
           <span className="font-semibold">{userName}</span>
           <button onClick={handleLogout}>
             <svg
@@ -70,18 +70,18 @@ const Header = () => {
           </button>
         </nav>
       ) : (
-        <nav className="flex items-center gap-4">
+        <nav className="flex items-center md:gap-4 gap-2">
           <a
             href="/signup"
             id="submitLinkButton"
-            className="rounded-full bg-lsdarkblue px-6 py-2 font-medium text-white transition-all duration-200 hover:scale-105"
+            className="rounded-full bg-lsdarkblue px-6 py-2 font-medium md:text-base text-sm text-white transition-all duration-200 hover:scale-105"
           >
             Signup
           </a>
           <a
             href="/login"
             id="submitLinkButton"
-            className="rounded-full border border-lsdarkblue px-6 py-2 font-medium text-white transition-all duration-200 hover:scale-105"
+            className="rounded-full border border-lsdarkblue px-6 py-2 font-medium md:text-base text-sm text-white transition-all duration-200 hover:scale-105"
           >
             Login
           </a>

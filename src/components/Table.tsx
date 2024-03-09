@@ -11,7 +11,7 @@ const Table = ({ data, updateData }: any) => {
   ]);
 
   const deleteUrl = async (id: string) => {
-    // When the user is a guest
+    // Cuando el usuario es un invitado
     let guestLinks: string[] = [];
     if (cookies.guestLinks) {
       guestLinks = cookies.guestLinks.filter((cookie: string) => cookie !== id);
@@ -19,8 +19,8 @@ const Table = ({ data, updateData }: any) => {
         ? setCookie("guestLinks", guestLinks, { path: "/" })
         : removeCookie("guestLinks", { path: "/" });
     } else if (cookies.token) {
-      // When the user is logged in
-      // Get user id from the token
+      // Cuando el usuario está conectado
+      // Obtener el id de usuario del token
       const sessionResponse = await fetch("/api/session", {
         headers: {
           "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const Table = ({ data, updateData }: any) => {
       });
       const sessionData = await sessionResponse.json();
 
-      // Remove the URL from the user's list
+      // Eliminar la URL de la lista del usuario
       await fetch("http://localhost:4321/api/user", {
         method: "DELETE",
         headers: {
@@ -38,11 +38,11 @@ const Table = ({ data, updateData }: any) => {
       });
     }
 
-    // Update the data in the table
+    // Actualizar los datos en la tabla
     const newData = data.filter((url: Url) => url.id !== id);
     updateData(newData);
 
-    // Remove the URL from the database
+    // Eliminar la URL de la base de datos
     await fetch(`http://localhost:4321/api/urls/delete/${id}`, {
       method: "DELETE",
       headers: {
@@ -52,17 +52,17 @@ const Table = ({ data, updateData }: any) => {
   };
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="overflow-x-auto rounded-lg shadow-md sm:overflow-hidden mx-4">
       <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
         <thead className="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-3 py-2 sm:px-6 sm:py-3">
               Short URL
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-3 py-2 sm:px-6 sm:py-3">
               Original URL
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-3 py-2 sm:px-6 sm:py-3">
               <span className="sr-only">Edit</span>
             </th>
           </tr>
@@ -74,14 +74,15 @@ const Table = ({ data, updateData }: any) => {
                 key={url.id}
                 className="border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
               >
-                <th
-                  scope="row"
-                  className="relative whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white" // added relative positioning here
-                >
-                  <a href={baseUrl + url.shorten}>{baseUrl + url.shorten}</a>
-                </th>
-                <td className="px-6 py-4"> {url.full} </td>
-                <td className="px-6 py-4 text-right">
+                <td className="px-3 py-2 font-medium text-gray-900 dark:text-white sm:px-6 sm:py-4">
+                  <a href={baseUrl + url.shorten} className="break-all">
+                    {baseUrl + url.shorten}
+                  </a>
+                </td>
+                <td className="break-all px-3 py-2 sm:px-6 sm:py-4">
+                  {url.full}
+                </td>
+                <td className="px-3 py-2 text-right sm:px-6 sm:py-4">
                   <button
                     onClick={() => deleteUrl(url.id)}
                     className="font-medium text-red-500"

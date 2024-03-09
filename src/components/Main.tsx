@@ -74,15 +74,15 @@ const Main = () => {
         <h1
           className={
             data.length === 0
-              ? "font-jakarta text-8xl font-bold"
-              : "font-jakarta text-7xl font-bold"
+              ? "font-jakarta md:text-8xl text-6xl font-bold"
+              : "font-jakarta md:text-7xl text-6xl font-bold"
           }
         >
           Linking<span className="text-lsblue">Short</span>
         </h1>
         <p
           className={
-            data.length === 0 ? "h-auto text-xl opacity-90" : "h-0 opacity-0"
+            data.length === 0 ? "h-auto sm:text-xl opacity-90" : "h-0 opacity-0"
           }
         >
           The ultimate{" "}
