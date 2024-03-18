@@ -1,8 +1,7 @@
 import type { Url } from "../xata";
 import { useCookies } from "react-cookie";
-import { useState } from "react"; // Importa el useState hook
 
-const baseUrl = "http://localhost:4321/";
+const baseUrl = "https://linking-short.vercel.app/";
 
 const Table = ({ data, updateData }: any) => {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -29,7 +28,7 @@ const Table = ({ data, updateData }: any) => {
       const sessionData = await sessionResponse.json();
 
       // Eliminar la URL de la lista del usuario
-      await fetch("http://localhost:4321/api/user", {
+      await fetch("/api/user", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +42,7 @@ const Table = ({ data, updateData }: any) => {
     updateData(newData);
 
     // Eliminar la URL de la base de datos
-    await fetch(`http://localhost:4321/api/urls/delete/${id}`, {
+    await fetch(`/api/urls/delete/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

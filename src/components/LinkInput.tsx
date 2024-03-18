@@ -10,7 +10,7 @@ const LinkInput = ({ data, updateData }: any) => {
   const urlInputRef = useRef<HTMLInputElement>(null);
 
   const createLink = async (url: string) => {
-    const addedUrl: Url = await fetch("http://localhost:4321/api/urls/create", {
+    const addedUrl: Url = await fetch("/api/urls/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

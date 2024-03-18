@@ -13,7 +13,7 @@ const Main = () => {
     const fetchData = async () => {
       if (cookies.guestLinks) {
         // If the user has guest links
-        const response = await fetch("http://localhost:4321/api/urls", {
+        const response = await fetch("/api/urls", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -33,7 +33,7 @@ const Main = () => {
         const sessionData = await sessionResponse.json();
 
         // Get the user's list of URLs
-        const urlsResponse = await fetch("http://localhost:4321/api/user", {
+        const urlsResponse = await fetch("/api/user", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const Main = () => {
         const urls = await urlsResponse.json() ?? [];
 
         // Get links information by their ids
-        const response = await fetch("http://localhost:4321/api/urls", {
+        const response = await fetch("/api/urls", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
